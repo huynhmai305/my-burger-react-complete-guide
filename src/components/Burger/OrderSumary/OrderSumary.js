@@ -3,8 +3,6 @@ import { Aux } from "../../../hoc/Aux/Aux";
 import { Button } from "../../UI/Button/Button";
 
 class OrderSumary extends Component {
-  componentDidUpdate() {}
-
   render() {
     const ingredientSumary = Object.keys(this.props.ingredients).map((key) => {
       return (
