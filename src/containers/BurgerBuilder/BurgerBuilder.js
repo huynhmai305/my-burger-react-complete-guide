@@ -3,7 +3,7 @@ import { BuildControls } from "../../components/Burger/BuildControls/BuildContro
 import { Burger } from "../../components/Burger/Burger";
 import OrderSumary from "../../components/Burger/OrderSumary/OrderSumary";
 import Modal from "../../components/UI/Modal/Modal";
-import { Aux } from "../../hoc/Aux";
+import { Aux } from "../../hoc/Aux/Aux";
 
 const INGREDIENT_PRICE = {
   salad: 0.5,
@@ -40,6 +40,10 @@ export class BurgerBuilder extends Component {
     this.setState({ purchasing: false });
   };
 
+  purchaseContinueHandle = () => {
+    alert("You continue!");
+  };
+
   addIngredient = (type) => {
     const updateArr = { ...this.state.ingredients };
     updateArr[type] = updateArr[type] + 1;
@@ -69,7 +73,12 @@ export class BurgerBuilder extends Component {
           show={this.state.purchasing}
           modalClose={this.purchaseCancelHandle}
         >
-          <OrderSumary ingredients={this.state.ingredients} />
+          <OrderSumary
+            ingredients={this.state.ingredients}
+            purchaseCanceled={this.purchaseCancelHandle}
+            purchaseContinued={this.purchaseContinueHandle}
+            price={this.state.totalPrice}
+          />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
