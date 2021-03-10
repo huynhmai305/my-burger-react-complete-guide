@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { BuildControls } from "../../components/Burger/BuildControls/BuildControls";
-import { Burger } from "../../components/Burger/Burger";
-import OrderSumary from "../../components/Burger/OrderSumary/OrderSumary";
+import Burger from "../../components/Burger/Burger";
+import OrderSumary from "../../components/Burger/OrderSummary/OrderSummary";
 import Modal from "../../components/UI/Modal/Modal";
 import { Aux } from "../../hoc/Aux/Aux";
 import axios from "../../axios-orders";
@@ -41,25 +41,21 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandle = () => {
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: "Mai Mai",
-        address: {
-          street: "18",
-          zipcode: "12345",
-          country: "Binh Dinh",
-        },
-        email: "huynhmai305+customer1@gmail.com",
-      },
-      deliveryMethod: "fastest",
-    };
-    axios
-      .post("/orders.json", order)
-      .then((res) => this.setState({ loading: false, purchasing: false }))
-      .catch((err) => this.setState({ loading: false, purchasing: false }));
+    const queryParams = [];
+    for (const i in this.state.ingredients) {
+      // encodeURIComponent ma hoa chuoi uri
+      queryParams.push(
+        `${encodeURIComponent(i)}=${encodeURIComponent(
+          this.state.ingredients[i]
+        )}`
+      );
+    }
+    queryParams.push(`price=${this.state.totalPrice}`);
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: "/checkout",
+      search: `?${queryString}`,
+    });
   };
 
   addIngredient = (type) => {

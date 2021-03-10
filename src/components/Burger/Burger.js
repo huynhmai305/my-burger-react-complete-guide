@@ -1,7 +1,7 @@
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 import styles from "./Burger.module.css";
 
-export const Burger = (props) => {
+const Burger = (props) => {
   let renderIngredients = Object.keys(props.ingredients)
     .map((item) => {
       return [...Array(props.ingredients[item])].map((_, i) => {
@@ -21,3 +21,5 @@ export const Burger = (props) => {
     </div>
   );
 };
+
+export default Burger;
