@@ -48,6 +48,7 @@ class ContactData extends React.Component {
           required: true,
           minLength: 5,
           maxLength: 5,
+          isNumberic: true,
         },
         valid: false,
         touched: false,
@@ -74,6 +75,7 @@ class ContactData extends React.Component {
         value: "",
         validation: {
           required: true,
+          isEmail: true,
         },
         valid: false,
         touched: false,
@@ -104,8 +106,9 @@ class ContactData extends React.Component {
       ingredients: this.props.ings,
       price: this.props.price,
       orderData: formData,
+      userId: this.props.userId,
     };
-    this.props.onOrderBurger(order);
+    this.props.onOrderBurger(order, this.props.token);
   };
 
   checkValidity = (value, rules) => {
@@ -120,6 +123,14 @@ class ContactData extends React.Component {
     }
     if (rules.maxLength) {
       isValid = value.length <= rules.maxLength && isValid;
+    }
+    if (rules.isEmail) {
+      const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      isValid = pattern.test(value) && isValid;
+    }
+    if (rules.isNumberic) {
+      const pattern = /^\d+$/;
+      isValid = pattern.test(value) && isValid;
     }
     return isValid;
   };
@@ -156,6 +167,7 @@ class ContactData extends React.Component {
             key={el.id}
             elementType={el.config.elementType}
             elementConfig={el.config.elementConfig}
+            shouldValidate={el.config.validation}
             value={el.config.value}
             changed={(e) => this.inputChangeHandle(e, el.id)}
             invalid={!el.config.valid}
@@ -190,12 +202,15 @@ const mapStateToProps = (state) => {
     ings: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
     loading: state.order.loading,
+    token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData)),
+    onOrderBurger: (orderData, token) =>
+      dispatch(actions.purchaseBurger(orderData, token)),
   };
 };
 

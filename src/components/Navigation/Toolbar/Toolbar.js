@@ -5,12 +5,12 @@ import styles from "./Toolbar.module.css";
 
 export const Toolbar = (props) => (
   <header className={styles.Toolbar}>
-    <DrawerToggle clicked={props.DrawerToggleClicked} />
+    <DrawerToggle clicked={props.drawerToggleClicked} />
     <div className={styles.Logo}>
       <Logo />
     </div>
     <nav className={styles.DesktopOnly}>
-      <NavigationItems />
+      <NavigationItems isAuthenticated={props.isAuth} />
     </nav>
   </header>
 );
