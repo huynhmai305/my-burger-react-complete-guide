@@ -37,3 +37,8 @@
   text-align: left;
   margin: 5px 0;
 }
+
+/* input:-webkit-autofill { */
+/* set color for placeholder */
+/* -webkit-text-fill-color: red !important; */
+/* } */
