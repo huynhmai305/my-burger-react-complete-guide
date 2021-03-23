@@ -7,6 +7,7 @@ import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
 import * as actions from "../../../store/actions/index";
 import withErrorHandle from "../../../hoc/withErrorHandle/withErrorHandle";
+import { updateObject, checkValidity } from "../../../shared/utility";
 
 class ContactData extends React.Component {
   state = {
@@ -111,40 +112,21 @@ class ContactData extends React.Component {
     this.props.onOrderBurger(order, this.props.token);
   };
 
-  checkValidity = (value, rules) => {
-    let isValid = true;
-    if (!rules) return true;
-
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-    if (rules.isEmail) {
-      const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-      isValid = pattern.test(value) && isValid;
-    }
-    if (rules.isNumberic) {
-      const pattern = /^\d+$/;
-      isValid = pattern.test(value) && isValid;
-    }
-    return isValid;
-  };
-
   inputChangeHandle = (e, inputIdentifier) => {
-    const updateOrderForm = { ...this.state.orderForm };
-    const updateOrderElement = { ...updateOrderForm[inputIdentifier] };
-    updateOrderElement.value = e.target.value;
-    updateOrderElement.valid = this.checkValidity(
-      updateOrderElement.value,
-      updateOrderElement.validation
+    const updateOrderElement = updateObject(
+      this.state.orderForm[inputIdentifier],
+      {
+        value: e.target.value,
+        valid: checkValidity(
+          e.target.value,
+          this.state.orderForm[inputIdentifier].validation
+        ),
+        touched: true,
+      }
     );
-    updateOrderElement.touched = true;
-    updateOrderForm[inputIdentifier] = updateOrderElement;
+    const updateOrderForm = updateObject(this.state.orderForm, {
+      [inputIdentifier]: updateOrderElement,
+    });
     let formIsValid = true;
     for (let key in updateOrderForm) {
       formIsValid = updateOrderForm[key].valid && formIsValid;
