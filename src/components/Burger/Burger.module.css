@@ -6,6 +6,11 @@
   font-weight: bold;
   text-align: center;
   font-size: 1.2rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE,Edge */
+}
+.burger::-webkit-scrollbar {
+  display: none; /* Chrome,Safar */
 }
 
 @media (min-width: 500px) and (min-height: 400px) {
@@ -15,9 +20,16 @@
   }
 }
 
+@media (min-width: 500px) and (min-height: 401px) {
+  .burger {
+    width: 450px;
+    height: 400px;
+  }
+}
+
 @media (min-width: 1000px) and (min-height: 700px) {
-  /* .burger {
+  .burger {
     width: 700px;
     height: 600px;
-  } */
+  }
 }
