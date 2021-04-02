@@ -28,3 +28,11 @@ export function* watchOrder() {
     takeEvery(actionTypes.FETCH_ORDERS, fetchOrdersSaga),
   ]);
 }
+
+/**
+ * NOTE
+ * yield: chay tuan tu cac cau lenh, thuc thi xong tra ra kq moi chay tiep
+ * put(action): dispatch 1 action
+ * takeEvery(action, saga): theo doi action, neu action thay doi => call saga
+ * takeLastest() : Có nghĩa là nếu chúng ta thực hiện một loạt các actions, nó sẽ chỉ thực thi và trả lại kết quả của của actions cuối cùng
+ */
