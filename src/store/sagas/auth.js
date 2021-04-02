@@ -1,6 +1,6 @@
 import { call, delay, put } from "redux-saga/effects";
-import * as actions from "../actions/index";
-import axios from "../../axios-orders";
+import * as actions from "../actions";
+import axios from "axios";
 
 const API_KEY = "AIzaSyB22Jgo6-fZZqQ0CyfvrCryB2hkLD8OZ08";
 
@@ -48,8 +48,9 @@ export function* authUserSaga(action) {
 
 export function* authCheckStateSaga(action) {
   const token = yield localStorage.getItem("token");
-  if (!token) yield put(actions.logout());
-  else {
+  if (!token) {
+    yield put(actions.logout());
+  } else {
     const expirationDate = yield new Date(
       localStorage.getItem("expirationDate")
     );

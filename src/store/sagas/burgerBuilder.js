@@ -1,8 +1,8 @@
-import * as actions from "../actions/index";
+import * as actions from "../actions";
 import axios from "../../axios-orders";
 import { put } from "@redux-saga/core/effects";
 
-export function* initIngredientSaga(action) {
+export function* initIngredientsSaga(action) {
   try {
     const response = yield axios.get("/ingredients.json");
     yield put(actions.setIngredients(response.data));

@@ -1,6 +1,6 @@
-import * as actions from "../actions/index";
+import { put } from "redux-saga/effects";
 import axios from "../../axios-orders";
-import { put } from "@redux-saga/core/effects";
+import * as actions from "../actions";
 
 export function* purchaseBurgerSaga(action) {
   yield put(actions.purchaseBurgerStart());

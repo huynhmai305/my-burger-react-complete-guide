@@ -1,11 +1,11 @@
-import { takeEvery, all } from "redux-saga/effects";
+import { takeEvery, all, takeLatest } from "redux-saga/effects";
 import {
   logoutSaga,
   checkAuthTimeoutSaga,
   authUserSaga,
   authCheckStateSaga,
 } from "./auth";
-import { initIngredientSaga } from "./burgerBuilder";
+import { initIngredientsSaga } from "./burgerBuilder";
 import { fetchOrdersSaga, purchaseBurgerSaga } from "./order";
 import * as actionTypes from "../actions/actionTypes";
 
@@ -19,19 +19,12 @@ export function* watchAuth() {
 }
 
 export function* watchBurgerBuilder() {
-  yield takeEvery(actionTypes.INIT_INGREDIENTS, initIngredientSaga);
+  yield takeEvery(actionTypes.INIT_INGREDIENTS, initIngredientsSaga);
 }
 
 export function* watchOrder() {
   yield all([
-    takeEvery(actionTypes.PURCHASE_BURGER, purchaseBurgerSaga),
+    takeLatest(actionTypes.PURCHASE_BURGER, purchaseBurgerSaga),
     takeEvery(actionTypes.FETCH_ORDERS, fetchOrdersSaga),
   ]);
 }
-
-/**
- * NOTE
- * yield: chay tuan tu cac cau lenh, thuc thi xong tra ra kq moi chay tiep
- * put(action): dispatch 1 action
- * takeEvery(action, saga): theo doi action, neu action thay doi => call saga
- */
