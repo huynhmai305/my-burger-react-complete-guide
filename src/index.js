@@ -11,17 +11,25 @@ import orderReducer from "./store/reducers/order";
 import authReducer from "./store/reducers/auth";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+import { watchAuth, watchBurgerBuilder, watchOrder } from "./store/sagas";
 
 const rootReducer = combineReducers({
   burgerBuilder: burgerBuilderReducer,
   order: orderReducer,
-  auth: authReducer
+  auth: authReducer,
 });
+
+const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk, sagaMiddleware))
 );
+
+sagaMiddleware.run(watchAuth);
+sagaMiddleware.run(watchBurgerBuilder);
+sagaMiddleware.run(watchOrder);
 
 const app = (
   <Provider store={store}>
