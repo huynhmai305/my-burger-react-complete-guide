@@ -7,6 +7,7 @@ import * as actions from "../../store/actions/index";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { Redirect } from "react-router";
 import { updateObject, checkValidity } from "../../shared/utility";
+import icon from "../../assets/images/icon.png";
 
 const Auth = (props) => {
   const [controls, setControls] = useState({
@@ -105,7 +106,12 @@ const Auth = (props) => {
 
   let errorMessage = null;
   if (props.error) {
-    errorMessage = <p className={styles.Error}>{props.error.message}</p>;
+    errorMessage = (
+      <div className={styles.Error}>
+        <img src={icon} alt="icon" />
+        <p>{props.error.message}</p>
+      </div>
+    );
   }
 
   let authRedirect = null;

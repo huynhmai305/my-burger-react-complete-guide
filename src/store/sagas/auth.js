@@ -1,6 +1,7 @@
 import { call, delay, put } from "redux-saga/effects";
 import * as actions from "../actions";
 import axios from "axios";
+import { translate } from "../../shared/translate-errors";
 
 const API_KEY = "AIzaSyB22Jgo6-fZZqQ0CyfvrCryB2hkLD8OZ08";
 
@@ -42,7 +43,7 @@ export function* authUserSaga(action) {
     );
     yield put(actions.checkAuthTimeout(response.data.expiresIn));
   } catch (err) {
-    yield put(actions.authFail(err.response.data.error));
+    yield put(actions.authFail(translate(err.response.data.error)));
   }
 }
 
