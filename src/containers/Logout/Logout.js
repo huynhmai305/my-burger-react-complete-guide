@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { connect } from "react-redux";
 import { Redirect } from "react-router";
 
-const Logout = (props) => {
-  const { onLogout } = props;
+const Logout = () => {
+  const dispatch = useDispatch();
+
+  const onLogout = useCallback(() => dispatch(actions.logout()), [dispatch]);
 
   useEffect(() => {
     onLogout();
@@ -13,10 +15,4 @@ const Logout = (props) => {
   return <Redirect to="/" />;
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onLogout: () => dispatch(actions.logout()),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Logout);
+export default Logout;
